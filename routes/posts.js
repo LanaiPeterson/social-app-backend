@@ -1,30 +1,32 @@
-import express from 'express'
-import post from '../models/post.js'
-import { authMiddleware } from "../utils/auth.js"
+import express from "express";
+import Post from "../models/Post.js";
+import { authMiddleware } from "../utils/auth.js";
 
-const router = express.Router()
+const router = new express.Router();
 
-router.get('/', async (req, res) => {
+router.use(authMiddleware);
+
+router.get("/", async (req, res) => {
   try {
-    const posts = await post.find().populate('user', 'username')
-    res.json(posts)
+    const posts = await Post.find();
+    res.json(posts);
   } catch (error) {
-    console.error(error)
-    res.status(500).json({ error: 'Internal Server Error' })
+    console.error(error);
+    res.status(400).json(error);
   }
-})
+});
 
-router.post('/', authMiddleware, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
-    const newPost = await post.create({
+    const newPost = await Post.create({
       ...req.body,
-      user: req.user._id
-    })
-    res.status(201).json(newPost)
+      author: req.user._id,
+    });
+    res.json(newPost);
   } catch (error) {
-    console.error(error)
-    res.status(500).json({ error: 'Internal Server Error' })
+    console.error(error);
+    res.status(400).json(error);
   }
-})
+});
 
 export default router;
