@@ -1,5 +1,5 @@
 import express from "express";
-import User from "../models/user.js";
+import Users from "../models/Users.js";
 import { signToken } from "../utils/auth.js";
 
 const router = express.Router();
