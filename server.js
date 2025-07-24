@@ -2,8 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import db from "./config/connection.js";
-import userRoutes from "./routes/userRoutes.js";
-import postRoutes from "./routes/postRoutes.js";
+import users from "./routes/users.js";
+import posts from "./routes/posts.js";
 
 dotenv.config();
 
